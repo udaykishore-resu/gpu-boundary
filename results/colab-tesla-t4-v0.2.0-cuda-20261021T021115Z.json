@@ -1,0 +1,1050 @@
+{
+  "schema": "gpu-boundary/bench-runs/v1",
+  "label": "colab-tesla-t4-v0.2.0-cuda",
+  "created_utc": "2026-10-21T02:11:15Z",
+  "command": [
+    "bin/cuda-launch-bench",
+    "-json"
+  ],
+  "runs": 5,
+  "host": {
+    "goos": "linux",
+    "goarch": "amd64",
+    "num_cpu": 2,
+    "go_version": "go1.27.3",
+    "cgo": true,
+    "devices": [
+      "cuda"
+    ],
+    "device_name": "Tesla T4 (sm_75)",
+    "cuda_driver": "13.0",
+    "cuda_runtime": "13.0"
+  },
+  "machine": {
+    "cpu_model": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+    "kernel": "Linux 6.6.122+",
+    "gpu": "Tesla T4, 580.82.07, 15360 MiB"
+  },
+  "summary": [
+    {
+      "section": "cuda launch",
+      "name": "native C loop",
+      "unit": "ns/launch",
+      "note": "no cgo crossing per launch: the floor",
+      "n": 5,
+      "median": 5052.87703,
+      "min": 4924.31865,
+      "max": 5209.17761,
+      "mean": 5048.127414,
+      "stddev": 109.79278001354226,
+      "cv_pct": 2.174920936208015
+    },
+    {
+      "section": "cuda launch",
+      "name": "go unbatched, heap",
+      "unit": "ns/launch",
+      "note": "one cgo call per launch",
+      "n": 5,
+      "median": 5892.76232,
+      "min": 5548.72198,
+      "max": 6308.50725,
+      "mean": 5906.606458,
+      "stddev": 288.4511538247224,
+      "cv_pct": 4.883534325095244
+    },
+    {
+      "section": "cuda launch",
+      "name": "go unbatched, arena",
+      "unit": "ns/launch",
+      "note": "one cgo call per launch",
+      "n": 5,
+      "median": 6000.95837,
+      "min": 5806.47122,
+      "max": 6210.27615,
+      "mean": 6004.905650000001,
+      "stddev": 185.5801552368702,
+      "cv_pct": 3.0904757885225087
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=1   heap+pin",
+      "unit": "ns/launch",
+      "note": "1.08x vs go unbatched heap",
+      "n": 5,
+      "median": 5935.8375,
+      "min": 5818.84976,
+      "max": 5980.04478,
+      "mean": 5910.547176,
+      "stddev": 70.73008431340898,
+      "cv_pct": 1.1966757426556234
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=1   arena",
+      "unit": "ns/launch",
+      "note": "1.07x vs go unbatched heap",
+      "n": 5,
+      "median": 5910.36924,
+      "min": 5849.00853,
+      "max": 6028.04746,
+      "mean": 5930.479248000001,
+      "stddev": 82.50470039486203,
+      "cv_pct": 1.3911978601507793
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=4   heap+pin",
+      "unit": "ns/launch",
+      "note": "1.14x vs go unbatched heap",
+      "n": 5,
+      "median": 5819.72047,
+      "min": 5554.61589,
+      "max": 5985.53623,
+      "mean": 5767.135571999999,
+      "stddev": 171.6092433225074,
+      "cv_pct": 2.9756408737066438
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=4   arena",
+      "unit": "ns/launch",
+      "note": "1.07x vs go unbatched heap",
+      "n": 5,
+      "median": 5828.46266,
+      "min": 5668.60541,
+      "max": 5986.64816,
+      "mean": 5827.455908,
+      "stddev": 116.92583182720588,
+      "cv_pct": 2.006464461905044
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=16  heap+pin",
+      "unit": "ns/launch",
+      "note": "1.09x vs go unbatched heap",
+      "n": 5,
+      "median": 5849.09109,
+      "min": 5732.40377,
+      "max": 6013.74283,
+      "mean": 5844.234098,
+      "stddev": 108.44304660051625,
+      "cv_pct": 1.855556173521991
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=16  arena",
+      "unit": "ns/launch",
+      "note": "0.99x vs go unbatched heap",
+      "n": 5,
+      "median": 6378.3003,
+      "min": 6035.72329,
+      "max": 6760.23685,
+      "mean": 6341.2139,
+      "stddev": 290.3117779367725,
+      "cv_pct": 4.578173556592572
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=64  heap+pin",
+      "unit": "ns/launch",
+      "note": "1.12x vs go unbatched heap",
+      "n": 5,
+      "median": 5618.99362,
+      "min": 5491.66784,
+      "max": 5984.21063,
+      "mean": 5730.046950000001,
+      "stddev": 233.82321835523084,
+      "cv_pct": 4.080651003308634
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=64  arena",
+      "unit": "ns/launch",
+      "note": "1.08x vs go unbatched heap",
+      "n": 5,
+      "median": 6073.28334,
+      "min": 5855.08856,
+      "max": 6099.23163,
+      "mean": 6017.7787880000005,
+      "stddev": 101.97496169208233,
+      "cv_pct": 1.694561486630743
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=256 heap+pin",
+      "unit": "ns/launch",
+      "note": "1.13x vs go unbatched heap",
+      "n": 5,
+      "median": 5519.9982,
+      "min": 5462.59049,
+      "max": 5818.07936,
+      "mean": 5579.206751999999,
+      "stddev": 143.38388568702777,
+      "cv_pct": 2.5699690307341347
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=256 arena",
+      "unit": "ns/launch",
+      "note": "1.19x vs go unbatched heap",
+      "n": 5,
+      "median": 5344.11162,
+      "min": 5258.49612,
+      "max": 5415.95728,
+      "mean": 5341.797381999999,
+      "stddev": 58.84949304877588,
+      "cv_pct": 1.101679619056279
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=1   arena+registered",
+      "unit": "ns/launch",
+      "note": "1.10x vs go unbatched heap",
+      "n": 5,
+      "median": 5814.20135,
+      "min": 5745.20915,
+      "max": 6336.45235,
+      "mean": 5918.6504860000005,
+      "stddev": 245.40130647481655,
+      "cv_pct": 4.146237508960696
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=4   arena+registered",
+      "unit": "ns/launch",
+      "note": "1.01x vs go unbatched heap",
+      "n": 5,
+      "median": 6055.99542,
+      "min": 5995.32612,
+      "max": 6337.45811,
+      "mean": 6130.078853999999,
+      "stddev": 142.36219033942385,
+      "cv_pct": 2.3223549603530738
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=16  arena+registered",
+      "unit": "ns/launch",
+      "note": "0.94x vs go unbatched heap",
+      "n": 5,
+      "median": 6691.95766,
+      "min": 6524.4803,
+      "max": 7017.31124,
+      "mean": 6742.647322,
+      "stddev": 184.32206168693344,
+      "cv_pct": 2.733674963030099
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=64  arena+registered",
+      "unit": "ns/launch",
+      "note": "1.06x vs go unbatched heap",
+      "n": 5,
+      "median": 6184.42246,
+      "min": 5924.40429,
+      "max": 6270.91277,
+      "mean": 6133.1957139999995,
+      "stddev": 135.70414537861828,
+      "cv_pct": 2.2126172342560646
+    },
+    {
+      "section": "cuda launch",
+      "name": "batch=256 arena+registered",
+      "unit": "ns/launch",
+      "note": "1.17x vs go unbatched heap",
+      "n": 5,
+      "median": 5420.89268,
+      "min": 5399.68636,
+      "max": 5516.18065,
+      "mean": 5442.576712,
+      "stddev": 46.47849807592849,
+      "cv_pct": 0.8539796595507957
+    },
+    {
+      "section": "cuda launch",
+      "name": "cgo tax per launch",
+      "unit": "ns/launch",
+      "note": "go unbatched arena minus native C loop",
+      "n": 5,
+      "median": 834.3296,
+      "min": 782.9235699999999,
+      "max": 1285.9574999999995,
+      "mean": 956.7782360000001,
+      "stddev": 222.63106406330417,
+      "cv_pct": 23.26882611733072
+    },
+    {
+      "section": "cuda launch",
+      "name": "pinning cost at batch=1",
+      "unit": "ns/descriptor",
+      "note": "batched heap+pin minus batched arena",
+      "n": 5,
+      "median": -91.51947999999993,
+      "min": -151.8402900000001,
+      "max": 131.0362500000001,
+      "mean": -19.93207199999997,
+      "stddev": 128.56554578452113,
+      "cv_pct": 645.0184696529359
+    },
+    {
+      "section": "cuda launch",
+      "name": "pinning cost at batch=64",
+      "unit": "ns/descriptor",
+      "note": "batched heap+pin minus batched arena",
+      "n": 5,
+      "median": -236.09493999999995,
+      "min": -589.3809899999997,
+      "max": -2.0627400000003036,
+      "mean": -287.73183800000004,
+      "stddev": 249.25465800774407,
+      "cv_pct": 86.62741660439539
+    }
+  ],
+  "raw": [
+    [
+      {
+        "section": "cuda launch",
+        "name": "native C loop",
+        "value": 4924.31865,
+        "unit": "ns/launch",
+        "note": "no cgo crossing per launch: the floor"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, heap",
+        "value": 6308.50725,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, arena",
+        "value": 6210.27615,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   heap+pin",
+        "value": 5818.84976,
+        "unit": "ns/launch",
+        "note": "1.08x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena",
+        "value": 5910.36924,
+        "unit": "ns/launch",
+        "note": "1.07x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   heap+pin",
+        "value": 5554.61589,
+        "unit": "ns/launch",
+        "note": "1.14x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena",
+        "value": 5872.10838,
+        "unit": "ns/launch",
+        "note": "1.07x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  heap+pin",
+        "value": 5769.25475,
+        "unit": "ns/launch",
+        "note": "1.09x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena",
+        "value": 6378.3003,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  heap+pin",
+        "value": 5618.99362,
+        "unit": "ns/launch",
+        "note": "1.12x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena",
+        "value": 5855.08856,
+        "unit": "ns/launch",
+        "note": "1.08x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 heap+pin",
+        "value": 5602.83317,
+        "unit": "ns/launch",
+        "note": "1.13x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena",
+        "value": 5318.88985,
+        "unit": "ns/launch",
+        "note": "1.19x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena+registered",
+        "value": 5760.51971,
+        "unit": "ns/launch",
+        "note": "1.10x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena+registered",
+        "value": 6215.70166,
+        "unit": "ns/launch",
+        "note": "1.01x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena+registered",
+        "value": 6691.95766,
+        "unit": "ns/launch",
+        "note": "0.94x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena+registered",
+        "value": 5924.40429,
+        "unit": "ns/launch",
+        "note": "1.06x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena+registered",
+        "value": 5399.68636,
+        "unit": "ns/launch",
+        "note": "1.17x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "cgo tax per launch",
+        "value": 1285.9574999999995,
+        "unit": "ns/launch",
+        "note": "go unbatched arena minus native C loop"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=1",
+        "value": -91.51947999999993,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=64",
+        "value": -236.09493999999995,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      }
+    ],
+    [
+      {
+        "section": "cuda launch",
+        "name": "native C loop",
+        "value": 5082.12216,
+        "unit": "ns/launch",
+        "note": "no cgo crossing per launch: the floor"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, heap",
+        "value": 5745.63705,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, arena",
+        "value": 6171.02191,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   heap+pin",
+        "value": 5964.35655,
+        "unit": "ns/launch",
+        "note": "0.96x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena",
+        "value": 5859.48343,
+        "unit": "ns/launch",
+        "note": "0.98x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   heap+pin",
+        "value": 5985.53623,
+        "unit": "ns/launch",
+        "note": "0.96x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena",
+        "value": 5781.45493,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  heap+pin",
+        "value": 5856.67805,
+        "unit": "ns/launch",
+        "note": "0.98x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena",
+        "value": 6099.32037,
+        "unit": "ns/launch",
+        "note": "0.94x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  heap+pin",
+        "value": 5984.21063,
+        "unit": "ns/launch",
+        "note": "0.96x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena",
+        "value": 6099.23163,
+        "unit": "ns/launch",
+        "note": "0.94x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 heap+pin",
+        "value": 5492.53254,
+        "unit": "ns/launch",
+        "note": "1.05x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena",
+        "value": 5415.95728,
+        "unit": "ns/launch",
+        "note": "1.06x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena+registered",
+        "value": 5814.20135,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena+registered",
+        "value": 6337.45811,
+        "unit": "ns/launch",
+        "note": "0.91x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena+registered",
+        "value": 6811.4203,
+        "unit": "ns/launch",
+        "note": "0.84x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena+registered",
+        "value": 6078.77098,
+        "unit": "ns/launch",
+        "note": "0.95x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena+registered",
+        "value": 5420.89268,
+        "unit": "ns/launch",
+        "note": "1.06x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "cgo tax per launch",
+        "value": 1088.8997500000005,
+        "unit": "ns/launch",
+        "note": "go unbatched arena minus native C loop"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=1",
+        "value": 104.8731200000002,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=64",
+        "value": -115.02100000000064,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      }
+    ],
+    [
+      {
+        "section": "cuda launch",
+        "name": "native C loop",
+        "value": 4972.14162,
+        "unit": "ns/launch",
+        "note": "no cgo crossing per launch: the floor"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, heap",
+        "value": 5548.72198,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, arena",
+        "value": 5806.47122,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   heap+pin",
+        "value": 5853.64729,
+        "unit": "ns/launch",
+        "note": "0.95x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena",
+        "value": 6005.48758,
+        "unit": "ns/launch",
+        "note": "0.92x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   heap+pin",
+        "value": 5636.75629,
+        "unit": "ns/launch",
+        "note": "0.98x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena",
+        "value": 5828.46266,
+        "unit": "ns/launch",
+        "note": "0.95x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  heap+pin",
+        "value": 6013.74283,
+        "unit": "ns/launch",
+        "note": "0.92x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena",
+        "value": 6432.48869,
+        "unit": "ns/launch",
+        "note": "0.86x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  heap+pin",
+        "value": 5491.66784,
+        "unit": "ns/launch",
+        "note": "1.01x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena",
+        "value": 6081.04883,
+        "unit": "ns/launch",
+        "note": "0.91x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 heap+pin",
+        "value": 5462.59049,
+        "unit": "ns/launch",
+        "note": "1.02x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena",
+        "value": 5258.49612,
+        "unit": "ns/launch",
+        "note": "1.06x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena+registered",
+        "value": 5745.20915,
+        "unit": "ns/launch",
+        "note": "0.97x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena+registered",
+        "value": 5995.32612,
+        "unit": "ns/launch",
+        "note": "0.93x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena+registered",
+        "value": 6524.4803,
+        "unit": "ns/launch",
+        "note": "0.85x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena+registered",
+        "value": 6270.91277,
+        "unit": "ns/launch",
+        "note": "0.88x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena+registered",
+        "value": 5417.17034,
+        "unit": "ns/launch",
+        "note": "1.02x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "cgo tax per launch",
+        "value": 834.3296,
+        "unit": "ns/launch",
+        "note": "go unbatched arena minus native C loop"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=1",
+        "value": -151.8402900000001,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=64",
+        "value": -589.3809899999997,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      }
+    ],
+    [
+      {
+        "section": "cuda launch",
+        "name": "native C loop",
+        "value": 5052.87703,
+        "unit": "ns/launch",
+        "note": "no cgo crossing per launch: the floor"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, heap",
+        "value": 6037.40369,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, arena",
+        "value": 5835.8006,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   heap+pin",
+        "value": 5980.04478,
+        "unit": "ns/launch",
+        "note": "1.01x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena",
+        "value": 5849.00853,
+        "unit": "ns/launch",
+        "note": "1.03x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   heap+pin",
+        "value": 5839.04898,
+        "unit": "ns/launch",
+        "note": "1.03x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena",
+        "value": 5668.60541,
+        "unit": "ns/launch",
+        "note": "1.07x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  heap+pin",
+        "value": 5732.40377,
+        "unit": "ns/launch",
+        "note": "1.05x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena",
+        "value": 6035.72329,
+        "unit": "ns/launch",
+        "note": "1.00x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  heap+pin",
+        "value": 5577.18382,
+        "unit": "ns/launch",
+        "note": "1.08x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena",
+        "value": 6073.28334,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 heap+pin",
+        "value": 5519.9982,
+        "unit": "ns/launch",
+        "note": "1.09x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena",
+        "value": 5371.53204,
+        "unit": "ns/launch",
+        "note": "1.12x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena+registered",
+        "value": 5936.86987,
+        "unit": "ns/launch",
+        "note": "1.02x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena+registered",
+        "value": 6045.91296,
+        "unit": "ns/launch",
+        "note": "1.00x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena+registered",
+        "value": 6668.06711,
+        "unit": "ns/launch",
+        "note": "0.91x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena+registered",
+        "value": 6184.42246,
+        "unit": "ns/launch",
+        "note": "0.98x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena+registered",
+        "value": 5458.95353,
+        "unit": "ns/launch",
+        "note": "1.11x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "cgo tax per launch",
+        "value": 782.9235699999999,
+        "unit": "ns/launch",
+        "note": "go unbatched arena minus native C loop"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=1",
+        "value": 131.0362500000001,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=64",
+        "value": -496.09951999999976,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      }
+    ],
+    [
+      {
+        "section": "cuda launch",
+        "name": "native C loop",
+        "value": 5209.17761,
+        "unit": "ns/launch",
+        "note": "no cgo crossing per launch: the floor"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, heap",
+        "value": 5892.76232,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "go unbatched, arena",
+        "value": 6000.95837,
+        "unit": "ns/launch",
+        "note": "one cgo call per launch"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   heap+pin",
+        "value": 5935.8375,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena",
+        "value": 6028.04746,
+        "unit": "ns/launch",
+        "note": "0.98x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   heap+pin",
+        "value": 5819.72047,
+        "unit": "ns/launch",
+        "note": "1.01x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena",
+        "value": 5986.64816,
+        "unit": "ns/launch",
+        "note": "0.98x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  heap+pin",
+        "value": 5849.09109,
+        "unit": "ns/launch",
+        "note": "1.01x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena",
+        "value": 6760.23685,
+        "unit": "ns/launch",
+        "note": "0.87x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  heap+pin",
+        "value": 5978.17884,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena",
+        "value": 5980.24158,
+        "unit": "ns/launch",
+        "note": "0.99x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 heap+pin",
+        "value": 5818.07936,
+        "unit": "ns/launch",
+        "note": "1.01x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena",
+        "value": 5344.11162,
+        "unit": "ns/launch",
+        "note": "1.10x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=1   arena+registered",
+        "value": 6336.45235,
+        "unit": "ns/launch",
+        "note": "0.93x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=4   arena+registered",
+        "value": 6055.99542,
+        "unit": "ns/launch",
+        "note": "0.97x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=16  arena+registered",
+        "value": 7017.31124,
+        "unit": "ns/launch",
+        "note": "0.84x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=64  arena+registered",
+        "value": 6207.46807,
+        "unit": "ns/launch",
+        "note": "0.95x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "batch=256 arena+registered",
+        "value": 5516.18065,
+        "unit": "ns/launch",
+        "note": "1.07x vs go unbatched heap"
+      },
+      {
+        "section": "cuda launch",
+        "name": "cgo tax per launch",
+        "value": 791.7807600000006,
+        "unit": "ns/launch",
+        "note": "go unbatched arena minus native C loop"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=1",
+        "value": -92.20996000000014,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      },
+      {
+        "section": "cuda launch",
+        "name": "pinning cost at batch=64",
+        "value": -2.0627400000003036,
+        "unit": "ns/descriptor",
+        "note": "batched heap+pin minus batched arena"
+      }
+    ]
+  ]
+}

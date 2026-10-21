@@ -1,0 +1,132 @@
+{
+  "schema": "gpu-boundary/bench-runs/v1",
+  "label": "colab-tesla-t4-v0.2.0-router-go",
+  "created_utc": "2026-10-21T02:09:02Z",
+  "command": [
+    "bin/router-bench",
+    "-json"
+  ],
+  "runs": 5,
+  "host": {
+    "goos": "linux",
+    "goarch": "amd64",
+    "num_cpu": 2,
+    "go_version": "go1.27.3",
+    "language": "go"
+  },
+  "machine": {
+    "cpu_model": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+    "kernel": "Linux 6.6.122+",
+    "gpu": "Tesla T4, 580.82.07, 15360 MiB"
+  },
+  "summary": [
+    {
+      "section": "router",
+      "name": "go pick+done, replicas=8",
+      "unit": "ns/request",
+      "note": "median of 3 passes x 200000 requests",
+      "n": 5,
+      "median": 528.37977,
+      "min": 520.750965,
+      "max": 543.01092,
+      "mean": 529.873257,
+      "stddev": 9.529681563346985,
+      "cv_pct": 1.7984832103626973
+    },
+    {
+      "section": "router",
+      "name": "go pick+done, replicas=64",
+      "unit": "ns/request",
+      "note": "median of 3 passes x 200000 requests",
+      "n": 5,
+      "median": 1705.13695,
+      "min": 1697.21614,
+      "max": 1732.278545,
+      "mean": 1712.4494869999999,
+      "stddev": 15.148758956506342,
+      "cv_pct": 0.8846251566255013
+    }
+  ],
+  "raw": [
+    [
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=8",
+        "value": 543.01092,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=64",
+        "value": 1705.13695,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=8",
+        "value": 521.46968,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=64",
+        "value": 1702.955955,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=8",
+        "value": 520.750965,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=64",
+        "value": 1732.278545,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=8",
+        "value": 528.37977,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=64",
+        "value": 1724.659845,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=8",
+        "value": 535.75495,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "go pick+done, replicas=64",
+        "value": 1697.21614,
+        "unit": "ns/request",
+        "note": "median of 3 passes x 200000 requests"
+      }
+    ]
+  ]
+}

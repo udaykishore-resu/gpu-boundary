@@ -1,0 +1,133 @@
+{
+  "schema": "gpu-boundary/bench-runs/v1",
+  "label": "colab-tesla-t4-v0.2.0-router-python",
+  "created_utc": "2026-10-21T02:09:19Z",
+  "command": [
+    "python3",
+    "bench/python/bench_router.py",
+    "--json"
+  ],
+  "runs": 5,
+  "host": {
+    "goos": "linux",
+    "goarch": "x86_64",
+    "num_cpu": 2,
+    "go_version": "",
+    "language": "CPython 3.13.15"
+  },
+  "machine": {
+    "cpu_model": "Intel(R) Xeon(R) CPU @ 2.00GHz",
+    "kernel": "Linux 6.6.122+",
+    "gpu": "Tesla T4, 580.82.07, 15360 MiB"
+  },
+  "summary": [
+    {
+      "section": "router",
+      "name": "python pick+done, replicas=8",
+      "unit": "ns/request",
+      "note": "CPython 3.13.15; median of 3 passes x 200000 requests",
+      "n": 5,
+      "median": 4913.993945,
+      "min": 4879.88557,
+      "max": 5119.98615,
+      "mean": 4962.404662,
+      "stddev": 101.94703661340345,
+      "cv_pct": 2.0543878131114703
+    },
+    {
+      "section": "router",
+      "name": "python pick+done, replicas=64",
+      "unit": "ns/request",
+      "note": "CPython 3.13.15; median of 3 passes x 200000 requests",
+      "n": 5,
+      "median": 21511.916075,
+      "min": 21056.396375,
+      "max": 21906.57333,
+      "mean": 21471.32396,
+      "stddev": 347.76243343300905,
+      "cv_pct": 1.6196599430983996
+    }
+  ],
+  "raw": [
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 4913.993945,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 21056.396375,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 5119.98615,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 21906.57333,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 4879.88557,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 21684.42907,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 5009.214975,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 21511.916075,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 4888.94267,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 21197.30495,
+        "unit": "ns/request",
+        "note": "CPython 3.13.15; median of 3 passes x 200000 requests"
+      }
+    ]
+  ]
+}
