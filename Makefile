@@ -6,6 +6,9 @@
 GO      ?= go
 PKGS    := ./...
 BIN     := bin
+RUNS    ?= 5
+LABEL   ?= $(shell $(GO) env GOOS)-$(shell $(GO) env GOARCH)
+PYTHON  ?= python3
 
 .DEFAULT_GOAL := help
 
@@ -80,6 +83,41 @@ asm:
 	GOOS=linux GOARCH=arm64 $(GO) vet ./pkg/kernel/
 	@echo "amd64 and arm64 assembly both pass vet"
 
+## bench-runs: every measurement, RUNS times in fresh processes, saved to results/ (docs/REPRODUCING.md)
+bench-runs: build
+	$(GO) build -o $(BIN)/bench-runs ./cmd/bench-runs
+	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL) -- $(BIN)/boundary-bench -json
+
+## router-crosscheck: prove the Python baseline makes the same 100k routing decisions as Go
+router-crosscheck:
+	@mkdir -p $(BIN)
+	$(GO) run ./cmd/router-bench -trace > $(BIN)/router-go.trace
+	$(PYTHON) bench/python/bench_router.py --trace > $(BIN)/router-py.trace
+	@if cmp -s $(BIN)/router-go.trace $(BIN)/router-py.trace; then \
+		echo "router-crosscheck: Go and Python traces are identical"; \
+	else \
+		echo "router-crosscheck: traces differ"; diff $(BIN)/router-go.trace $(BIN)/router-py.trace; exit 1; \
+	fi
+
+## bench-router: routing decision cost in Go and in Python, RUNS times each, after the cross-check
+bench-router: router-crosscheck
+	$(GO) build -o $(BIN)/bench-runs ./cmd/bench-runs
+	$(GO) build -o $(BIN)/router-bench ./cmd/router-bench
+	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL)-router-go -- $(BIN)/router-bench -json
+	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL)-router-python -- $(PYTHON) bench/python/bench_router.py --json
+
+## bench-cuda-launch: real GPU launch, batching and pinning costs, RUNS times (needs the CUDA toolkit)
+bench-cuda-launch:
+	@mkdir -p $(BIN)
+	$(GO) build -o $(BIN)/bench-runs ./cmd/bench-runs
+	$(GO) build -tags cuda -o $(BIN)/cuda-launch-bench ./cmd/cuda-launch-bench
+	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL)-cuda -- $(BIN)/cuda-launch-bench -json
+
+## bench-paper: tests, then every measurement this machine can run, including CUDA when a GPU is present
+bench-paper: test bench-runs bench-router
+	@if command -v nvidia-smi >/dev/null 2>&1; then $(MAKE) bench-cuda-launch; \
+	else echo "bench-paper: no nvidia-smi, skipping the CUDA row"; fi
+
 ## fmt: format everything
 fmt:
 	$(GO) fmt $(PKGS)
@@ -100,4 +138,5 @@ clean:
 	rm -rf $(BIN) coverage.out
 
 .PHONY: help run build test test-short test-nocgo test-metal test-cuda test-simd \
-        bench bench-quick bench-json bench-go cross asm fmt lint cover clean
+        bench bench-quick bench-json bench-go cross asm fmt lint cover clean \
+        bench-runs router-crosscheck bench-router bench-cuda-launch bench-paper

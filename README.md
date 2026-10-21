@@ -63,6 +63,10 @@ one interface.
 Taken on linux/amd64, 2 vCPU, Go 1.25.1, cgo enabled. Your numbers will differ; that is the point of
 shipping the harness rather than a screenshot.
 
+For numbers you intend to cite, use the repeated-run harness described in
+[docs/REPRODUCING.md](docs/REPRODUCING.md). `make bench-paper` runs every measurement five times in
+fresh processes and writes the raw data and summary statistics to `results/`.
+
 ### The cgo boundary
 
 ```
@@ -149,8 +153,14 @@ pkg/device/       Device interface; CPU, Metal (Objective-C shim) and CUDA (cuBL
 controlplane/     admission, router, batcher, topology, telemetry, and the server that wires them
 cmd/boundary-bench  runs every measurement, table or JSON
 cmd/boundaryd       the control plane, with an optional synthetic load generator
+cmd/bench-runs      repeats any measurement in fresh processes; writes results/<host>-<time>.json
+cmd/cuda-launch-bench  section 2 against a real GPU: launch, batching and pinning costs (-tags cuda)
+cmd/router-bench    routing-decision cost, same harness as the Python baseline
+bench/python/       line-for-line Python port of the router, for the cross-language comparison
+internal/routerload/  deterministic routing workload shared by Go and Python
 internal/gated/     parses the build-tag-excluded files so CI catches typos in GPU code
 docs/FINDINGS.md    the numbers, with interpretation
+docs/REPRODUCING.md how to produce citable numbers: machines, commands, rules for quoting
 docs/adr/           why the data plane / control plane boundary sits where it does
 ```
 
@@ -165,6 +175,8 @@ docs/adr/           why the data plane / control plane boundary sits where it do
 | `make test-cuda` | CUDA + cuBLAS backend (requires the CUDA toolkit) |
 | `make test-simd` | `GOEXPERIMENT=simd` intrinsics path (requires Go 1.26+) |
 | `make cross` | builds for linux/darwin/windows × amd64/arm64 |
+| `make router-crosscheck` | Go and Python routers make the same 100k decisions |
+| `make bench-paper` | tests, then every measurement, 5 runs each, saved to `results/` |
 
 ## Honest limitations
 
@@ -185,6 +197,9 @@ it did not measure.
   designed around — fixed launch overhead and a prefix cache — and nothing else. The control plane
   numbers show that the *policies* work against a system with those properties; they are not
   throughput claims about any real model server.
+- **`cmd/cuda-launch-bench` has been compiled and linked against CUDA 12.9 headers and libraries, but
+  not run on a GPU.** Each variant reads its result back and checks it against the exact expected
+  value, so the first run on real hardware is also its test.
 - **The 2-vCPU measurement host is small**, which compresses the scheduler-lateness figures. Thread
   growth and allocation figures are structural and reproduce anywhere; the microsecond latencies are
   not portable.

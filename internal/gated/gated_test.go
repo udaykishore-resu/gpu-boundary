@@ -25,6 +25,7 @@ import (
 var gatedFiles = []string{
 	"pkg/device/metal_darwin.go",    // //go:build darwin && metal && cgo
 	"pkg/device/cuda.go",            // //go:build cuda && cgo
+	"cmd/cuda-launch-bench/main.go", // //go:build cuda && cgo
 	"pkg/kernel/simdexp_amd64.go",   // //go:build goexperiment.simd && amd64
 	"pkg/ffi/ffi_nocgo.go",          // //go:build !cgo
 	"pkg/kernel/cref/cref_nocgo.go", // //go:build !cgo

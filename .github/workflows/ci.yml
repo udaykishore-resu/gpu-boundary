@@ -50,6 +50,16 @@ jobs:
       - name: measurements run to completion
         run: go run ./cmd/boundary-bench -quick
 
+      # The Go-versus-Python routing comparison is only meaningful while both
+      # implementations make identical decisions, so that is checked on every push.
+      - name: Go and Python routers make identical decisions
+        run: make router-crosscheck
+
+      - name: repeated-run harness works end to end
+        run: |
+          go build -o /tmp/router-bench ./cmd/router-bench
+          go run ./cmd/bench-runs -runs 2 -cooldown 0 -out /tmp/results -- /tmp/router-bench -json -iters 20000 -repeats 1
+
   cross:
     name: cross compile
     runs-on: ubuntu-latest
@@ -98,3 +108,4 @@ jobs:
         with:
           go-version: stable
       - run: go test -tags cuda -count=1 -v ./pkg/device/
+      - run: go run -tags cuda ./cmd/cuda-launch-bench -quick

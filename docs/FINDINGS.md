@@ -5,6 +5,11 @@ your own hardware before quoting any of it; the ratios travel, the absolute micr
 
 **Reference host:** linux/amd64, 2 vCPU, Go 1.25.1, cgo enabled, gcc with `-O3 -march=native`.
 
+> **Status:** these are single runs on a 2-vCPU build host, recorded before the repeated-run
+> harness existed. Regenerate them as described in [REPRODUCING.md](REPRODUCING.md) before quoting
+> any of them. Section 2 now also has a real-GPU counterpart, `cmd/cuda-launch-bench`, and section 7's
+> routing cost is measured by `cmd/router-bench` against a Python baseline.
+
 ---
 
 ## 1. The cgo boundary costs about 64 ns, and nothing removes it
