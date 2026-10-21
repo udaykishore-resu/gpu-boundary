@@ -1,0 +1,4127 @@
+{
+  "schema": "gpu-boundary/bench-runs/v1",
+  "label": "macbook-air-apple-m5-v0.2.1",
+  "created_utc": "2026-10-21T02:51:43Z",
+  "command": [
+    "bin/boundary-bench",
+    "-json"
+  ],
+  "runs": 10,
+  "source": {
+    "commit": "aa7953c6eb2291e6a991b4eb845ebc4de56c469c",
+    "describe": "v0.2.1",
+    "dirty": false
+  },
+  "host": {
+    "goos": "darwin",
+    "goarch": "arm64",
+    "num_cpu": 10,
+    "go_version": "go1.27.3",
+    "cgo": true,
+    "kernels": [
+      "neon-asm",
+      "unrolled",
+      "scalar",
+      "cgo-c"
+    ],
+    "devices": [
+      "cpu"
+    ],
+    "device_name": "host cpu (darwin/arm64, 10 threads)"
+  },
+  "machine": {
+    "cpu_model": "Apple M5",
+    "kernel": "Darwin 27.0.0"
+  },
+  "summary": [
+    {
+      "section": "cgo boundary",
+      "name": "go function call",
+      "unit": "ns/op",
+      "note": "//go:noinline empty Go function",
+      "n": 10,
+      "median": 2.2653333333333334,
+      "min": 1.7827636666666666,
+      "max": 2.3343333333333334,
+      "mean": 2.2021943999999998,
+      "stddev": 0.1638666621840098,
+      "cv_pct": 7.44106252309105
+    },
+    {
+      "section": "cgo boundary",
+      "name": "cgo call",
+      "unit": "ns/op",
+      "note": "empty C function",
+      "n": 10,
+      "median": 17.834507000000002,
+      "min": 14.054458333333333,
+      "max": 18.250375,
+      "mean": 17.430634766666664,
+      "stddev": 1.2250831761427168,
+      "cv_pct": 7.028333692617408
+    },
+    {
+      "section": "cgo boundary",
+      "name": "cgo call with args",
+      "unit": "ns/op",
+      "note": "one int32 addition in C",
+      "n": 10,
+      "median": 14.329944333333334,
+      "min": 13.69825,
+      "max": 14.693472,
+      "mean": 14.305212466666665,
+      "stddev": 0.26323704812236765,
+      "cv_pct": 1.8401477694634056
+    },
+    {
+      "section": "cgo boundary",
+      "name": "boundary tax",
+      "unit": "ns/call",
+      "note": "what every GPU API call pays before doing anything",
+      "n": 10,
+      "median": 15.523152833333334,
+      "min": 12.271694666666667,
+      "max": 15.969180666666665,
+      "mean": 15.22844036666667,
+      "stddev": 1.0685134570684895,
+      "cv_pct": 7.016565264341478
+    },
+    {
+      "section": "cgo boundary",
+      "name": "tax ratio",
+      "unit": "x",
+      "note": "cgo call cost relative to a Go call",
+      "n": 10,
+      "median": 7.91175119256208,
+      "min": 7.628837641010995,
+      "max": 8.232181752981697,
+      "mean": 7.918551427943579,
+      "stddev": 0.161184493652257,
+      "cv_pct": 2.0355300476228146
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=1   heap",
+      "unit": "ns/launch",
+      "note": "1 per crossing, pinned Go memory",
+      "n": 10,
+      "median": 54.0015625,
+      "min": 52.569165,
+      "max": 56.23229,
+      "mean": 54.16404150000001,
+      "stddev": 1.2036876355093353,
+      "cv_pct": 2.2223002607907962
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=1   arena",
+      "unit": "ns/launch",
+      "note": "1 per crossing, off-heap memory",
+      "n": 10,
+      "median": 20.725625,
+      "min": 19.77729,
+      "max": 21.088335,
+      "mean": 20.616625000000003,
+      "stddev": 0.42060892146585116,
+      "cv_pct": 2.040144405138334
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=4   heap",
+      "unit": "ns/launch",
+      "note": "4 per crossing, pinned Go memory, 0.83x vs unbatched",
+      "n": 10,
+      "median": 63.209685,
+      "min": 62.05979,
+      "max": 65.18958,
+      "mean": 63.2747075,
+      "stddev": 0.8610496681062225,
+      "cv_pct": 1.3608117716011925
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=4   arena",
+      "unit": "ns/launch",
+      "note": "4 per crossing, off-heap memory, 2.52x vs unbatched",
+      "n": 10,
+      "median": 7.975,
+      "min": 7.84854,
+      "max": 8.21625,
+      "mean": 8.002542000000002,
+      "stddev": 0.13720744511707672,
+      "cv_pct": 1.714548266251857
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=16  heap",
+      "unit": "ns/launch",
+      "note": "16 per crossing, pinned Go memory, 0.86x vs unbatched",
+      "n": 10,
+      "median": 61.1775025,
+      "min": 59.917295,
+      "max": 62.973125,
+      "mean": 61.16045899999999,
+      "stddev": 1.0785478379536277,
+      "cv_pct": 1.7634724388736651
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=16  arena",
+      "unit": "ns/launch",
+      "note": "16 per crossing, off-heap memory, 3.45x vs unbatched",
+      "n": 10,
+      "median": 6.070105,
+      "min": 5.833125,
+      "max": 6.455415,
+      "mean": 6.1064375,
+      "stddev": 0.24627697074240523,
+      "cv_pct": 4.033071176809805
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=64  heap",
+      "unit": "ns/launch",
+      "note": "64 per crossing, pinned Go memory, 0.90x vs unbatched",
+      "n": 10,
+      "median": 56.362812500000004,
+      "min": 55.86042,
+      "max": 60.380625,
+      "mean": 56.98052199999999,
+      "stddev": 1.4473697652661772,
+      "cv_pct": 2.5401132079242403
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=64  arena",
+      "unit": "ns/launch",
+      "note": "64 per crossing, off-heap memory, 3.71x vs unbatched",
+      "n": 10,
+      "median": 5.4999975,
+      "min": 5.464375,
+      "max": 5.688955,
+      "mean": 5.528291,
+      "stddev": 0.06942201095073842,
+      "cv_pct": 1.2557589850233721
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=256 heap",
+      "unit": "ns/launch",
+      "note": "256 per crossing, pinned Go memory, 0.94x vs unbatched",
+      "n": 10,
+      "median": 55.5412525,
+      "min": 54.305,
+      "max": 57.78875,
+      "mean": 55.7591465,
+      "stddev": 1.0833908859252195,
+      "cv_pct": 1.942983266297341
+    },
+    {
+      "section": "launch batching",
+      "name": "batch=256 arena",
+      "unit": "ns/launch",
+      "note": "256 per crossing, off-heap memory, 3.84x vs unbatched",
+      "n": 10,
+      "median": 5.2975,
+      "min": 5.271875,
+      "max": 5.6925,
+      "mean": 5.3566665,
+      "stddev": 0.13235301539296757,
+      "cv_pct": 2.4708093250339096
+    },
+    {
+      "section": "launch batching",
+      "name": "pinning cost",
+      "unit": "ns/descriptor",
+      "note": "runtime.Pinner per buffer; this is why batching alone does not pay",
+      "n": 10,
+      "median": 33.5383375,
+      "min": 31.759165,
+      "max": 35.214999999999996,
+      "mean": 33.54741649999999,
+      "stddev": 1.21592356491555,
+      "cv_pct": 3.624492410363553
+    },
+    {
+      "section": "scheduler",
+      "name": "threads created, blocking in Go",
+      "unit": "threads",
+      "note": "40 goroutines parked by the runtime",
+      "n": 10,
+      "median": 0,
+      "min": 0,
+      "max": 0,
+      "mean": 0,
+      "stddev": 0,
+      "cv_pct": 0
+    },
+    {
+      "section": "scheduler",
+      "name": "threads created, blocking in C",
+      "unit": "threads",
+      "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread",
+      "n": 10,
+      "median": 38,
+      "min": 36,
+      "max": 39,
+      "mean": 37.9,
+      "stddev": 0.9944289260117534,
+      "cv_pct": 2.6238230237777134
+    },
+    {
+      "section": "scheduler",
+      "name": "observer p99 lateness, blocking in Go",
+      "unit": "us",
+      "note": "",
+      "n": 10,
+      "median": 163,
+      "min": 158,
+      "max": 167,
+      "mean": 163.1,
+      "stddev": 3.0349812373573437,
+      "cv_pct": 1.8608100780854346
+    },
+    {
+      "section": "scheduler",
+      "name": "observer p99 lateness, blocking in C",
+      "unit": "us",
+      "note": "a synchronous GPU API called from many goroutines behaves like this",
+      "n": 10,
+      "median": 214,
+      "min": 190,
+      "max": 221,
+      "mean": 209,
+      "stddev": 12.292725943057183,
+      "cv_pct": 5.881687054094345
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=256 neon-asm",
+      "unit": "ns/op",
+      "note": "54.8 GB/s",
+      "n": 10,
+      "median": 37.371799423520784,
+      "min": 37.3443312199067,
+      "max": 37.387425264022994,
+      "mean": 37.36859208667941,
+      "stddev": 0.01239762855160178,
+      "cv_pct": 0.03317660061381092
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=256 unrolled",
+      "unit": "ns/op",
+      "note": "55.9 GB/s",
+      "n": 10,
+      "median": 36.80536534586415,
+      "min": 36.62668228280939,
+      "max": 37.012138896434436,
+      "mean": 36.804892850712534,
+      "stddev": 0.11490050883761602,
+      "cv_pct": 0.3121881357016138
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=256 scalar",
+      "unit": "ns/op",
+      "note": "16.0 GB/s",
+      "n": 10,
+      "median": 127.62300443877459,
+      "min": 127.56396549358031,
+      "max": 136.01093521378766,
+      "mean": 128.4724530948183,
+      "stddev": 2.6493424056327215,
+      "cv_pct": 2.0621871395865625
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=256 cgo-c",
+      "unit": "ns/op",
+      "note": "49.3 GB/s, 3.08x over scalar",
+      "n": 10,
+      "median": 41.589382208412,
+      "min": 41.4002455068541,
+      "max": 44.874250624369694,
+      "mean": 42.04644787703878,
+      "stddev": 1.0654059773876199,
+      "cv_pct": 2.53387867746476
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=4096 neon-asm",
+      "unit": "ns/op",
+      "note": "74.6 GB/s",
+      "n": 10,
+      "median": 439.6092496962659,
+      "min": 439.52271213270456,
+      "max": 443.8546696542283,
+      "mean": 440.0600171391585,
+      "stddev": 1.3423112642335273,
+      "cv_pct": 0.3050291351075081
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=4096 unrolled",
+      "unit": "ns/op",
+      "note": "39.3 GB/s",
+      "n": 10,
+      "median": 837.6465939056011,
+      "min": 833.304368765338,
+      "max": 843.0449427328346,
+      "mean": 838.2790825561967,
+      "stddev": 2.650292348986039,
+      "cv_pct": 0.31615871183429756
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=4096 scalar",
+      "unit": "ns/op",
+      "note": "10.5 GB/s",
+      "n": 10,
+      "median": 3127.518703336575,
+      "min": 3126.57696939366,
+      "max": 3128.9212337337335,
+      "mean": 3127.600125922398,
+      "stddev": 0.8050058321621233,
+      "cv_pct": 0.02573877093462226
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=4096 cgo-c",
+      "unit": "ns/op",
+      "note": "43.0 GB/s, 4.11x over scalar",
+      "n": 10,
+      "median": 765.7551342157453,
+      "min": 761.7576376783151,
+      "max": 771.5396579659332,
+      "mean": 765.7924876237919,
+      "stddev": 2.5746455677768614,
+      "cv_pct": 0.33620668906871
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=65536 neon-asm",
+      "unit": "ns/op",
+      "note": "75.8 GB/s",
+      "n": 10,
+      "median": 6915.654327637094,
+      "min": 6912.332952855315,
+      "max": 6919.110600034584,
+      "mean": 6915.788472124783,
+      "stddev": 2.2108836086208856,
+      "cv_pct": 0.03196864128410251
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=65536 unrolled",
+      "unit": "ns/op",
+      "note": "37.6 GB/s",
+      "n": 10,
+      "median": 14020.43249395995,
+      "min": 13948.84200251011,
+      "max": 14080.530543462997,
+      "mean": 14023.988882968712,
+      "stddev": 43.36085198932959,
+      "cv_pct": 0.3091905758852157
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=65536 scalar",
+      "unit": "ns/op",
+      "note": "10.2 GB/s",
+      "n": 10,
+      "median": 51416.286324322886,
+      "min": 51406.21511179645,
+      "max": 51429.34121882232,
+      "mean": 51415.24790785545,
+      "stddev": 6.800175220616627,
+      "cv_pct": 0.013225989365652101
+    },
+    {
+      "section": "cpu kernel",
+      "name": "n=65536 cgo-c",
+      "unit": "ns/op",
+      "note": "39.5 GB/s, 3.87x over scalar",
+      "n": 10,
+      "median": 13552.111163896963,
+      "min": 13186.912361490862,
+      "max": 14148.994853523358,
+      "mean": 13646.274474972612,
+      "stddev": 385.86544565378597,
+      "cv_pct": 2.827624831681838
+    },
+    {
+      "section": "allocation",
+      "name": "heap p50",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 3625,
+      "min": 3459,
+      "max": 3917,
+      "mean": 3662.6,
+      "stddev": 160.11745688712395,
+      "cv_pct": 4.371688333072789
+    },
+    {
+      "section": "allocation",
+      "name": "heap p99",
+      "unit": "ns",
+      "note": "1875.2 MB allocated, 671 collections",
+      "n": 10,
+      "median": 44625,
+      "min": 42416,
+      "max": 45625,
+      "mean": 44329,
+      "stddev": 1086.3488287736025,
+      "cv_pct": 2.450650429230532
+    },
+    {
+      "section": "allocation",
+      "name": "heap p99.9",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 58667,
+      "min": 55375,
+      "max": 61875,
+      "mean": 59066.9,
+      "stddev": 2286.5507477907026,
+      "cv_pct": 3.871120285287873
+    },
+    {
+      "section": "allocation",
+      "name": "heap max",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 95229,
+      "min": 74584,
+      "max": 103917,
+      "mean": 91204.2,
+      "stddev": 11251.59870912179,
+      "cv_pct": 12.336711148304346
+    },
+    {
+      "section": "allocation",
+      "name": "pool p50",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 2937.5,
+      "min": 2917,
+      "max": 2958,
+      "mean": 2937.5,
+      "stddev": 21.608897344483925,
+      "cv_pct": 0.7356220372590273
+    },
+    {
+      "section": "allocation",
+      "name": "pool p99",
+      "unit": "ns",
+      "note": "1.6 MB allocated, 0 collections, p99 14.44x better than heap",
+      "n": 10,
+      "median": 3084,
+      "min": 3042,
+      "max": 3084,
+      "mean": 3079.5,
+      "stddev": 13.184586961044072,
+      "cv_pct": 0.428140508558015
+    },
+    {
+      "section": "allocation",
+      "name": "pool p99.9",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 3958.5,
+      "min": 3917,
+      "max": 4084,
+      "mean": 3987.5,
+      "stddev": 55.78580066249435,
+      "cv_pct": 1.3990169445139649
+    },
+    {
+      "section": "allocation",
+      "name": "pool max",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 20146,
+      "min": 19083,
+      "max": 21375,
+      "mean": 20133.4,
+      "stddev": 738.9383074534858,
+      "cv_pct": 3.6702112283741726
+    },
+    {
+      "section": "allocation",
+      "name": "arena p50",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 2917,
+      "min": 2875,
+      "max": 2958,
+      "mean": 2916.7,
+      "stddev": 19.567830743339947,
+      "cv_pct": 0.6708893867500925
+    },
+    {
+      "section": "allocation",
+      "name": "arena p99",
+      "unit": "ns",
+      "note": "0.2 MB allocated, 0 collections, p99 14.44x better than heap",
+      "n": 10,
+      "median": 3042,
+      "min": 3041,
+      "max": 3042,
+      "mean": 3041.8,
+      "stddev": 0.42163702135578385,
+      "cv_pct": 0.013861431433880722
+    },
+    {
+      "section": "allocation",
+      "name": "arena p99.9",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 3875,
+      "min": 3833,
+      "max": 4000,
+      "mean": 3891.6,
+      "stddev": 44.81864691298824,
+      "cv_pct": 1.1516766089266175
+    },
+    {
+      "section": "allocation",
+      "name": "arena max",
+      "unit": "ns",
+      "note": "",
+      "n": 10,
+      "median": 19520.5,
+      "min": 18125,
+      "max": 21125,
+      "mean": 19545.6,
+      "stddev": 940.6213312959094,
+      "cv_pct": 4.812445416338764
+    },
+    {
+      "section": "device",
+      "name": "backend",
+      "unit": "",
+      "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison",
+      "n": 10,
+      "median": 0,
+      "min": 0,
+      "max": 0,
+      "mean": 0,
+      "stddev": 0,
+      "cv_pct": 0
+    },
+    {
+      "section": "device",
+      "name": "saxpy batch=1",
+      "unit": "ns/launch",
+      "note": "1 launches per submission",
+      "n": 10,
+      "median": 727.335425,
+      "min": 722.11665,
+      "max": 731.02915,
+      "mean": 726.932505,
+      "stddev": 2.4873774525312844,
+      "cv_pct": 0.34217447086525377
+    },
+    {
+      "section": "device",
+      "name": "saxpy batch=8",
+      "unit": "ns/launch",
+      "note": "8 launches per submission, 1.00x vs unbatched",
+      "n": 10,
+      "median": 727.3812499999999,
+      "min": 722.8875,
+      "max": 729.63125,
+      "mean": 726.7024950000001,
+      "stddev": 2.6416276703167787,
+      "cv_pct": 0.3635088208024906
+    },
+    {
+      "section": "device",
+      "name": "saxpy batch=64",
+      "unit": "ns/launch",
+      "note": "64 launches per submission, 1.00x vs unbatched",
+      "n": 10,
+      "median": 724.7752654246794,
+      "min": 720.1418269230769,
+      "max": 728.4759615384615,
+      "mean": 724.6358723958334,
+      "stddev": 2.3370656487716115,
+      "cv_pct": 0.32251586456031617
+    },
+    {
+      "section": "device",
+      "name": "amplification",
+      "unit": "launches/submission",
+      "note": "59968 enqueued over 22812 submissions",
+      "n": 10,
+      "median": 2.6287918639312644,
+      "min": 2.6287918639312644,
+      "max": 2.6287918639312644,
+      "mean": 2.628791863931265,
+      "stddev": 4.681111291435602e-16,
+      "cv_pct": 1.7807082240566456e-14
+    }
+  ],
+  "raw": [
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 1.7827636666666666,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 14.054458333333333,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 13.69825,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 12.271694666666667,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.883522979583572,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 54.191665,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.44646,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 65.18958,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.83x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 8.10771,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.52x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 62.973125,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.86x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 5.9325,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.45x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 60.380625,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.90x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.5175,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.71x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 57.78875,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.94x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.32083,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.84x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 33.745205,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 38,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 166,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 221,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.35859946564646,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.62668228280939,
+        "unit": "ns/op",
+        "note": "55.9 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.72974856017314,
+        "unit": "ns/op",
+        "note": "16.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.51546337530451,
+        "unit": "ns/op",
+        "note": "49.3 GB/s, 3.08x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.52271213270456,
+        "unit": "ns/op",
+        "note": "74.6 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 833.304368765338,
+        "unit": "ns/op",
+        "note": "39.3 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3127.4915580151956,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 761.7576376783151,
+        "unit": "ns/op",
+        "note": "43.0 GB/s, 4.11x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6912.332952855315,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 13948.84200251011,
+        "unit": "ns/op",
+        "note": "37.6 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51413.773148148146,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 13285.107030497593,
+        "unit": "ns/op",
+        "note": "39.5 GB/s, 3.87x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3459,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 43916,
+        "unit": "ns",
+        "note": "1875.2 MB allocated, 671 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 56209,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 97667,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.44x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 4083,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 20625,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2916,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3041,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.44x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3833,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 19791,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 724.87085,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 725.80625,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 722.3411458333334,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.316597,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 18.116861,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.519819333333333,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.800264,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.8204629462957955,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 52.569165,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.81,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 63.717085,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.83x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 7.883335,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.64x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 59.99979,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.88x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 6.37,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.27x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 55.954795,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.94x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.688955,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.66x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 57.0425,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.92x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.35771,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.88x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 31.759165,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 36,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 166,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 218,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.37045931664645,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.67264268068236,
+        "unit": "ns/op",
+        "note": "55.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.72974800853689,
+        "unit": "ns/op",
+        "note": "16.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.4002455068541,
+        "unit": "ns/op",
+        "note": "49.5 GB/s, 3.09x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.60232284105047,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 836.9693459059241,
+        "unit": "ns/op",
+        "note": "39.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3128.9212337337335,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 763.2304921691615,
+        "unit": "ns/op",
+        "note": "42.9 GB/s, 4.10x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6919.110600034584,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 13982.24660207709,
+        "unit": "ns/op",
+        "note": "37.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51406.21511179645,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 13186.912361490862,
+        "unit": "ns/op",
+        "note": "39.8 GB/s, 3.90x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3625,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 43625,
+        "unit": "ns",
+        "note": "1875.3 MB allocated, 678 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 58584,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 103917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3083,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.15x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 4000,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 19416,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3041,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.35x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 19708,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 722.11665,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 723.6229,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 723.2989282852565,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.3343333333333334,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 17.80825,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.142680666666667,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.473916666666668,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.628837641010995,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 53.654795,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.111875,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 63.19333,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.85x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 7.84854,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.56x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 61.54625,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.87x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 5.875625,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.42x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 56.10792,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.96x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.49458,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.66x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 56.48604,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.95x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.27375,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.81x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 33.542919999999995,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 39,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 159,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 192,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.3443312199067,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.74867485567503,
+        "unit": "ns/op",
+        "note": "55.7 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.65259405107814,
+        "unit": "ns/op",
+        "note": "16.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.90900870143703,
+        "unit": "ns/op",
+        "note": "48.9 GB/s, 3.05x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.6198652199246,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 836.68009904883,
+        "unit": "ns/op",
+        "note": "39.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3128.1602263490277,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 766.9237386219094,
+        "unit": "ns/op",
+        "note": "42.7 GB/s, 4.08x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6912.594937584287,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 13994.758914837086,
+        "unit": "ns/op",
+        "note": "37.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51409.87217078189,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 13544.366957216049,
+        "unit": "ns/op",
+        "note": "38.7 GB/s, 3.80x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3583,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 42416,
+        "unit": "ns",
+        "note": "1875.3 MB allocated, 689 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 58334,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 97250,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3083,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 13.76x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 3958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 20834,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 13.94x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 4000,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 20958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 724.8625,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 722.8875,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 726.4560797275641,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.188833333333333,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 17.575403,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.283666666666667,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.386569666666668,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 8.029575725272217,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 52.85,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.649375,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 62.825835,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.84x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 7.875835,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.62x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 60.05458,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.88x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 5.84083,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.54x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 58.32,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.91x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.600625,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.69x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 54.68229,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.97x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.6925,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.63x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 32.200625,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 38,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 165,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 200,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.37313953039512,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.77609824144161,
+        "unit": "ns/op",
+        "note": "55.7 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.60807388677397,
+        "unit": "ns/op",
+        "note": "16.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.5604979924903,
+        "unit": "ns/op",
+        "note": "49.3 GB/s, 3.07x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.55294184931324,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 837.3774254172527,
+        "unit": "ns/op",
+        "note": "39.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3127.1160022494378,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 771.5396579659332,
+        "unit": "ns/op",
+        "note": "42.5 GB/s, 4.05x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6915.494845717449,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14002.112004474586,
+        "unit": "ns/op",
+        "note": "37.4 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51417.40633041688,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 14089.04942208051,
+        "unit": "ns/op",
+        "note": "37.2 GB/s, 3.65x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3500,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 42917,
+        "unit": "ns",
+        "note": "1875.2 MB allocated, 680 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 55375,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 74584,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3083,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 13.92x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 4084,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 19417,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.11x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 19625,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 727.4729,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 723.325,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.01x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 725.7465945512821,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.172736,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 17.34530566666667,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.368430666666667,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.172569666666668,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.9831630104470435,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 53.81146,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.49646,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 62.465,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.86x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 8.21625,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.49x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 59.917295,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.90x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 5.833125,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.51x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 56.209165,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.96x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.490625,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.73x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 54.962915,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.98x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.29792,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.87x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 33.315,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 38,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 158,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 221,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.387425264022994,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.7427046844536,
+        "unit": "ns/op",
+        "note": "55.7 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.56396549358031,
+        "unit": "ns/op",
+        "note": "16.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 42.72825439326231,
+        "unit": "ns/op",
+        "note": "47.9 GB/s, 2.99x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 440.0528806072911,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 837.7620569025975,
+        "unit": "ns/op",
+        "note": "39.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3127.7795926030226,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 766.1807396111323,
+        "unit": "ns/op",
+        "note": "42.8 GB/s, 4.08x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6918.630216970702,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14025.964931968017,
+        "unit": "ns/op",
+        "note": "37.4 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51416.087940344565,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 14021.976238395118,
+        "unit": "ns/op",
+        "note": "37.4 GB/s, 3.67x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3792,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 45291,
+        "unit": "ns",
+        "note": "1875.3 MB allocated, 684 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 61875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 75958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3084,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.69x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 4000,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 19083,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2916,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.89x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3916,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 18917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 727.19795,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 728.9979,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 720.1418269230769,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.01x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.2494723333333333,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 17.860764,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.693472,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.611291666666666,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.939979405540588,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 54.99229,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 19.77729,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 63.57583,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.86x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 7.875,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.51x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 61.86521,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.89x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 6.20771,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.19x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 56.51646,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.97x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.48375,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.61x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 55.957295,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.98x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.292915,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.74x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 35.214999999999996,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 37,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 163,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 190,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.376392358378865,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.847178610053504,
+        "unit": "ns/op",
+        "note": "55.6 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.62298835305997,
+        "unit": "ns/op",
+        "note": "16.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.83202356869896,
+        "unit": "ns/op",
+        "note": "49.0 GB/s, 3.05x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.52561177706565,
+        "unit": "ns/op",
+        "note": "74.6 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 837.5311309086047,
+        "unit": "ns/op",
+        "note": "39.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3127.5458486579546,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 764.9308508829275,
+        "unit": "ns/op",
+        "note": "42.8 GB/s, 4.09x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6915.813809556739,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14014.90005595188,
+        "unit": "ns/op",
+        "note": "37.4 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51419.20344207552,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 13286.972502886836,
+        "unit": "ns/op",
+        "note": "39.5 GB/s, 3.87x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3833,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 45625,
+        "unit": "ns",
+        "note": "1875.2 MB allocated, 682 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 61833,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 93208,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3084,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.79x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 3917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 21375,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 15.00x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 18666,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 728.4,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 729.63125,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 728.4759615384615,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.2811943333333335,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 18.250375,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.450958333333332,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.969180666666665,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 8.000359606948582,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 55.621665,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.91479,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 63.22604,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.88x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 7.952085,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.63x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 60.445,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.92x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 6.28146,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.33x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 57.6975,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.96x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.480625,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.82x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 55.563545,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 1.00x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.29708,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.95x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 34.706875,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 38,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 163,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 220,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.37659789014708,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.8346324502867,
+        "unit": "ns/op",
+        "note": "55.6 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 136.01093521378766,
+        "unit": "ns/op",
+        "note": "15.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 44.874250624369694,
+        "unit": "ns/op",
+        "note": "45.6 GB/s, 3.03x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 443.8546696542283,
+        "unit": "ns/op",
+        "note": "73.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 843.0449427328346,
+        "unit": "ns/op",
+        "note": "38.9 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3126.57696939366,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 765.7705762846241,
+        "unit": "ns/op",
+        "note": "42.8 GB/s, 4.08x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6915.117608478028,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14080.530543462997,
+        "unit": "ns/op",
+        "note": "37.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51417.60941115968,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 14030.719392314566,
+        "unit": "ns/op",
+        "note": "37.4 GB/s, 3.66x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3500,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 44791,
+        "unit": "ns",
+        "note": "1875.3 MB allocated, 688 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 58750,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 103458,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3084,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.52x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 3959,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 19834,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.72x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 19125,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 726.52085,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 728.83125,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 724.3130508814103,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.108194666666667,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 17.355041666666665,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.234958333333333,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.246846999999999,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 8.232181752981697,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 54.603545,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 21.06979,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 63.680835,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.86x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 7.997915,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.63x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 62.448335,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.87x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 5.929585,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.55x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 55.94146,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.98x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.464375,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.86x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 55.28417,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.99x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.47396,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.85x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 33.533755,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 39,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 161,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 216,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.37711436580183,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 37.012138896434436,
+        "unit": "ns/op",
+        "note": "55.3 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.62302052448919,
+        "unit": "ns/op",
+        "note": "16.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.6182664243337,
+        "unit": "ns/op",
+        "note": "49.2 GB/s, 3.07x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.69450838395363,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 840.5298763205897,
+        "unit": "ns/op",
+        "note": "39.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3127.0066118544455,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 766.8127988203012,
+        "unit": "ns/op",
+        "note": "42.7 GB/s, 4.08x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6915.449311942466,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14055.037575502178,
+        "unit": "ns/op",
+        "note": "37.3 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51429.34121882232,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 13308.790620743335,
+        "unit": "ns/op",
+        "note": "39.4 GB/s, 3.86x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 44750,
+        "unit": "ns",
+        "note": "1875.2 MB allocated, 687 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 61667,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 84166,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3084,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.51x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 3958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 20458,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.71x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 21125,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 728.5271,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 726.6021,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 725.2374799679487,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.2909166666666665,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 17.863305666666665,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.320986,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.572389,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.797448910552545,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 53.11354,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 20.801875,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 62.81375,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.85x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 8.185,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.54x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 61.532085,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.86x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 6.455415,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.22x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 55.86042,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.95x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.55646,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.74x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 54.305,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 0.98x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.288125,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 3.93x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 32.311665000000005,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 39,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 163,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 212,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.361657035562715,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.903524549604256,
+        "unit": "ns/op",
+        "note": "55.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.59698236904852,
+        "unit": "ns/op",
+        "note": "16.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.544624241228334,
+        "unit": "ns/op",
+        "note": "49.3 GB/s, 3.07x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.55848237457224,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 839.4987376157186,
+        "unit": "ns/op",
+        "note": "39.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3126.6837062706786,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 765.0386920567483,
+        "unit": "ns/op",
+        "note": "42.8 GB/s, 4.09x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6916.1535800760985,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14075.55132252859,
+        "unit": "ns/op",
+        "note": "37.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51406.48559670782,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 13559.855370577878,
+        "unit": "ns/op",
+        "note": "38.7 GB/s, 3.79x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3792,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 44500,
+        "unit": "ns",
+        "note": "1875.2 MB allocated, 683 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 58000,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 81250,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3084,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.43x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 3958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 20542,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2917,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.63x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 19416,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 728.3271,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 729.1604,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 724.2880608974359,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.01x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ],
+    [
+      {
+        "section": "cgo boundary",
+        "name": "go function call",
+        "value": 2.2969026666666665,
+        "unit": "ns/op",
+        "note": "//go:noinline empty Go function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call",
+        "value": 18.076583333333332,
+        "unit": "ns/op",
+        "note": "empty C function"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "cgo call with args",
+        "value": 14.338902666666666,
+        "unit": "ns/op",
+        "note": "one int32 addition in C"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "boundary tax",
+        "value": 15.779680666666666,
+        "unit": "ns/call",
+        "note": "what every GPU API call pays before doing anything"
+      },
+      {
+        "section": "cgo boundary",
+        "name": "tax ratio",
+        "value": 7.869982300802762,
+        "unit": "x",
+        "note": "cgo call cost relative to a Go call"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   heap",
+        "value": 56.23229,
+        "unit": "ns/launch",
+        "note": "1 per crossing, pinned Go memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=1   arena",
+        "value": 21.088335,
+        "unit": "ns/launch",
+        "note": "1 per crossing, off-heap memory"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   heap",
+        "value": 62.05979,
+        "unit": "ns/launch",
+        "note": "4 per crossing, pinned Go memory, 0.91x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=4   arena",
+        "value": 8.08375,
+        "unit": "ns/launch",
+        "note": "4 per crossing, off-heap memory, 2.61x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  heap",
+        "value": 60.82292,
+        "unit": "ns/launch",
+        "note": "16 per crossing, pinned Go memory, 0.92x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=16  arena",
+        "value": 6.338125,
+        "unit": "ns/launch",
+        "note": "16 per crossing, off-heap memory, 3.33x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  heap",
+        "value": 56.816875,
+        "unit": "ns/launch",
+        "note": "64 per crossing, pinned Go memory, 0.99x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=64  arena",
+        "value": 5.505415,
+        "unit": "ns/launch",
+        "note": "64 per crossing, off-heap memory, 3.83x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 heap",
+        "value": 55.51896,
+        "unit": "ns/launch",
+        "note": "256 per crossing, pinned Go memory, 1.01x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "batch=256 arena",
+        "value": 5.271875,
+        "unit": "ns/launch",
+        "note": "256 per crossing, off-heap memory, 4.00x vs unbatched"
+      },
+      {
+        "section": "launch batching",
+        "name": "pinning cost",
+        "value": 35.143955,
+        "unit": "ns/descriptor",
+        "note": "runtime.Pinner per buffer; this is why batching alone does not pay"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in Go",
+        "value": 0,
+        "unit": "threads",
+        "note": "40 goroutines parked by the runtime"
+      },
+      {
+        "section": "scheduler",
+        "name": "threads created, blocking in C",
+        "value": 37,
+        "unit": "threads",
+        "note": "the runtime cannot park a goroutine inside a C call, so it makes a thread"
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in Go",
+        "value": 167,
+        "unit": "us",
+        "note": ""
+      },
+      {
+        "section": "scheduler",
+        "name": "observer p99 lateness, blocking in C",
+        "value": 200,
+        "unit": "us",
+        "note": "a synchronous GPU API called from many goroutines behaves like this"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 neon-asm",
+        "value": 37.36020442028595,
+        "unit": "ns/op",
+        "note": "54.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 unrolled",
+        "value": 36.88465125568442,
+        "unit": "ns/op",
+        "note": "55.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 scalar",
+        "value": 127.58647448765498,
+        "unit": "ns/op",
+        "note": "16.1 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=256 cgo-c",
+        "value": 41.48184394240887,
+        "unit": "ns/op",
+        "note": "49.4 GB/s, 3.08x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 neon-asm",
+        "value": 439.6161765514814,
+        "unit": "ns/op",
+        "note": "74.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 unrolled",
+        "value": 840.0928419442782,
+        "unit": "ns/op",
+        "note": "39.0 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 scalar",
+        "value": 3128.7195100968233,
+        "unit": "ns/op",
+        "note": "10.5 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=4096 cgo-c",
+        "value": 765.7396921468666,
+        "unit": "ns/op",
+        "note": "42.8 GB/s, 4.09x over scalar"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 neon-asm",
+        "value": 6917.186858032163,
+        "unit": "ns/op",
+        "note": "75.8 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 unrolled",
+        "value": 14059.944876374588,
+        "unit": "ns/op",
+        "note": "37.3 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 scalar",
+        "value": 51416.48470830121,
+        "unit": "ns/op",
+        "note": "10.2 GB/s"
+      },
+      {
+        "section": "cpu kernel",
+        "name": "n=65536 cgo-c",
+        "value": 14148.994853523358,
+        "unit": "ns/op",
+        "note": "37.1 GB/s, 3.63x over scalar"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p50",
+        "value": 3625,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99",
+        "value": 45459,
+        "unit": "ns",
+        "note": "1875.2 MB allocated, 687 collections"
+      },
+      {
+        "section": "allocation",
+        "name": "heap p99.9",
+        "value": 60042,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "heap max",
+        "value": 100584,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p50",
+        "value": 2958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99",
+        "value": 3084,
+        "unit": "ns",
+        "note": "1.6 MB allocated, 0 collections, p99 14.74x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "pool p99.9",
+        "value": 3958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "pool max",
+        "value": 19750,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p50",
+        "value": 2958,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99",
+        "value": 3042,
+        "unit": "ns",
+        "note": "0.2 MB allocated, 0 collections, p99 14.94x better than heap"
+      },
+      {
+        "section": "allocation",
+        "name": "arena p99.9",
+        "value": 3875,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "allocation",
+        "name": "arena max",
+        "value": 18125,
+        "unit": "ns",
+        "note": ""
+      },
+      {
+        "section": "device",
+        "name": "backend",
+        "value": 0,
+        "unit": "",
+        "note": "host cpu (darwin/arm64, 10 threads) - no driver to submit to, so batching changes the counters but not the clock; build with -tags metal or -tags cuda for the real comparison"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=1",
+        "value": 731.02915,
+        "unit": "ns/launch",
+        "note": "1 launches per submission"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=8",
+        "value": 728.1604,
+        "unit": "ns/launch",
+        "note": "8 launches per submission, 1.00x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "saxpy batch=64",
+        "value": 726.0595953525641,
+        "unit": "ns/launch",
+        "note": "64 launches per submission, 1.01x vs unbatched"
+      },
+      {
+        "section": "device",
+        "name": "amplification",
+        "value": 2.6287918639312644,
+        "unit": "launches/submission",
+        "note": "59968 enqueued over 22812 submissions"
+      }
+    ]
+  ]
+}

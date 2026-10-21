@@ -1,0 +1,217 @@
+{
+  "schema": "gpu-boundary/bench-runs/v1",
+  "label": "macbook-air-apple-m5-v0.2.1-router-python",
+  "created_utc": "2026-10-21T02:53:13Z",
+  "command": [
+    "python3",
+    "bench/python/bench_router.py",
+    "--json"
+  ],
+  "runs": 10,
+  "source": {
+    "commit": "aa7953c6eb2291e6a991b4eb845ebc4de56c469c",
+    "describe": "v0.2.1",
+    "dirty": false
+  },
+  "host": {
+    "goos": "darwin",
+    "goarch": "arm64",
+    "num_cpu": 10,
+    "go_version": "",
+    "language": "CPython 3.14.7"
+  },
+  "machine": {
+    "cpu_model": "Apple M5",
+    "kernel": "Darwin 27.0.0"
+  },
+  "summary": [
+    {
+      "section": "router",
+      "name": "python pick+done, replicas=8",
+      "unit": "ns/request",
+      "note": "CPython 3.14.7; median of 3 passes x 200000 requests",
+      "n": 10,
+      "median": 1570.2760425000001,
+      "min": 1545.930415,
+      "max": 1582.45146,
+      "mean": 1568.0337920000002,
+      "stddev": 13.043936216499686,
+      "cv_pct": 0.8318657597208009
+    },
+    {
+      "section": "router",
+      "name": "python pick+done, replicas=64",
+      "unit": "ns/request",
+      "note": "CPython 3.14.7; median of 3 passes x 200000 requests",
+      "n": 10,
+      "median": 6384.164165,
+      "min": 6269.6075,
+      "max": 6471.157085,
+      "mean": 6378.984812,
+      "stddev": 63.36591941557678,
+      "cv_pct": 0.9933542919928932
+    }
+  ],
+  "raw": [
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1560.586665,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6405.645,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1576.809375,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6370.724165,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1552.708335,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6372.65604,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1566.715625,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6297.450205,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1558.859795,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6453.11354,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1581.54583,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6395.67229,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1580.89396,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6411.76042,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1545.930415,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6342.061875,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1582.45146,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6269.6075,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ],
+    [
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=8",
+        "value": 1573.83646,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      },
+      {
+        "section": "router",
+        "name": "python pick+done, replicas=64",
+        "value": 6471.157085,
+        "unit": "ns/request",
+        "note": "CPython 3.14.7; median of 3 passes x 200000 requests"
+      }
+    ]
+  ]
+}
