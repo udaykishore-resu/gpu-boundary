@@ -1,0 +1,100 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          check-latest: true
+
+      - name: formatting
+        run: test -z "$(gofmt -l . | tee /dev/stderr)"
+
+      - name: vet
+        run: go vet ./...
+
+      - name: test with race detector
+        run: go test -race -count=1 ./...
+
+      # The hand-written assembly and the cgo boundary are the two things most
+      # likely to break silently, so both get their own step rather than being
+      # buried in the main run.
+      - name: assembly assembles for both architectures
+        run: |
+          GOARCH=amd64 go vet ./pkg/kernel/
+          GOOS=linux GOARCH=arm64 go vet ./pkg/kernel/
+
+      - name: pure Go fallbacks
+        run: |
+          CGO_ENABLED=0 go vet ./...
+          CGO_ENABLED=0 go test -count=1 ./...
+
+      - name: measurements run to completion
+        run: go run ./cmd/boundary-bench -quick
+
+  cross:
+    name: cross compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: build every supported platform
+        run: |
+          set -e
+          for t in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 windows/amd64; do
+            os=${t%/*}; arch=${t#*/}
+            printf '%-16s' "$t"
+            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build ./... && echo ok
+          done
+
+  # Metal needs a macOS runner with the Xcode command line tools, which
+  # GitHub's macos-latest image provides. There is no GPU-less fallback: if the
+  # runner has no Metal device the job reports it and does not fail the build,
+  # because a missing GPU is not a broken commit.
+  metal:
+    name: metal backend
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: build metal backend
+        run: go build -tags metal ./...
+      - name: test metal backend
+        run: go test -tags metal -count=1 -v ./pkg/device/
+
+  # CUDA has no hosted runner. This job documents the command a self-hosted
+  # GPU runner would run; enable it by adding the label to a machine with the
+  # toolkit installed.
+  cuda:
+    name: cuda backend
+    if: false
+    runs-on: [self-hosted, gpu]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - run: go test -tags cuda -count=1 -v ./pkg/device/
