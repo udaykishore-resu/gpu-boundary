@@ -6,7 +6,8 @@
 GO      ?= go
 PKGS    := ./...
 BIN     := bin
-RUNS    ?= 5
+RUNS    ?= 10
+MATRIX_RUNS ?= 5
 LABEL   ?= $(shell $(GO) env GOOS)-$(shell $(GO) env GOARCH)
 PYTHON  ?= python3
 
@@ -106,12 +107,15 @@ bench-router: router-crosscheck
 	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL)-router-go -- $(BIN)/router-bench -json
 	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL)-router-python -- $(PYTHON) bench/python/bench_router.py --json
 
-## bench-cuda-launch: real GPU launch, batching and pinning costs, RUNS times (needs the CUDA toolkit)
+## bench-cuda-launch: real GPU launch costs, RUNS times, plus the cgocheck/GOMAXPROCS/locked-thread matrix (needs CUDA)
 bench-cuda-launch:
 	@mkdir -p $(BIN)
 	$(GO) build -o $(BIN)/bench-runs ./cmd/bench-runs
 	$(GO) build -tags cuda -o $(BIN)/cuda-launch-bench ./cmd/cuda-launch-bench
 	$(BIN)/bench-runs -runs $(RUNS) -label $(LABEL)-cuda -- $(BIN)/cuda-launch-bench -json
+	GODEBUG=cgocheck=0 $(BIN)/bench-runs -runs $(MATRIX_RUNS) -label $(LABEL)-cuda-cgocheck0 -- $(BIN)/cuda-launch-bench -json
+	GOMAXPROCS=1 $(BIN)/bench-runs -runs $(MATRIX_RUNS) -label $(LABEL)-cuda-gomaxprocs1 -- $(BIN)/cuda-launch-bench -json
+	$(BIN)/bench-runs -runs $(MATRIX_RUNS) -label $(LABEL)-cuda-lockthread -- $(BIN)/cuda-launch-bench -json -lock-thread
 
 ## bench-paper: tests, then every measurement this machine can run, including CUDA when a GPU is present
 bench-paper: test bench-runs bench-router

@@ -4,6 +4,7 @@ package device
 
 /*
 #cgo CFLAGS: -O2
+#cgo linux CFLAGS: -I/usr/local/cuda/include
 #cgo linux LDFLAGS: -L/usr/local/cuda/lib64 -lcudart -lcublas
 #cgo windows LDFLAGS: -lcudart -lcublas
 

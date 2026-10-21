@@ -17,3 +17,7 @@ coverage.out
 # local scratch
 /tmp/
 /.verify/
+
+# python
+__pycache__/
+*.pyc

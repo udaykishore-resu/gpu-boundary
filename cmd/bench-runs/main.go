@@ -12,6 +12,8 @@
 //
 //   - the host and machine description (CPU model, kernel, GPU and driver when
 //     present),
+//   - the commit it measured, whether the tree was clean, and the runtime
+//     settings (GODEBUG, GOMAXPROCS, ...) that change what is measured,
 //   - the exact command line,
 //   - per-finding summary statistics across runs (median, min, max, mean,
 //     sample standard deviation, coefficient of variation),
@@ -89,6 +91,28 @@ type Machine struct {
 	GPU      string `json:"gpu,omitempty"`
 }
 
+// Source records exactly which code produced the numbers and under which
+// runtime settings, so a results file can be traced to a commit without
+// trusting its file name.
+type Source struct {
+	// Commit is the full commit hash, or empty when not run inside a git
+	// checkout.
+	Commit string `json:"commit,omitempty"`
+	// Describe is `git describe --tags --always`, e.g. "v0.2.1" on a tagged
+	// commit or "v0.2.1-3-gabc1234" after it.
+	Describe string `json:"describe,omitempty"`
+	// Dirty is true when tracked or untracked files outside results/ differ
+	// from the commit. results/ is excluded because bench-runs writes there.
+	Dirty bool `json:"dirty"`
+	// Env holds the runtime settings that change what is being measured.
+	Env map[string]string `json:"env,omitempty"`
+}
+
+// envKeys are the variables that alter the measurement itself and so belong
+// in the record. Anything not listed is deliberately not captured.
+var envKeys = []string{"GODEBUG", "GOMAXPROCS", "GOGC", "GOMEMLIMIT", "GOEXPERIMENT",
+	"CGO_CFLAGS", "CGO_LDFLAGS", "CUDA_VISIBLE_DEVICES"}
+
 // Results is the file bench-runs writes.
 type Results struct {
 	Schema     string          `json:"schema"`
@@ -96,6 +120,7 @@ type Results struct {
 	CreatedUTC string          `json:"created_utc"`
 	Command    []string        `json:"command"`
 	Runs       int             `json:"runs"`
+	Source     Source          `json:"source"`
 	Host       json.RawMessage `json:"host"`
 	Machine    Machine         `json:"machine"`
 	Warnings   []string        `json:"warnings,omitempty"`
@@ -139,7 +164,14 @@ func run(args []string, stdout, stderr io.Writer) error {
 		CreatedUTC: time.Now().UTC().Format(time.RFC3339),
 		Command:    cmdline,
 		Runs:       *runs,
+		Source:     describeSource(".", *out),
 		Machine:    describeMachine(),
+	}
+	if res.Source.Commit == "" {
+		res.Warnings = append(res.Warnings, "not run inside a git checkout; the results cannot be tied to a commit")
+	} else if res.Source.Dirty {
+		res.Warnings = append(res.Warnings,
+			"the working tree had uncommitted changes outside "+*out+"; these numbers do not correspond to any commit")
 	}
 
 	for i := 0; i < *runs; i++ {
@@ -289,8 +321,46 @@ func write(dir string, res Results) (string, error) {
 	return path, nil
 }
 
+// describeSource records the commit and the measurement-relevant environment.
+// outDir is excluded from the dirty check when it lives inside the checkout,
+// because bench-runs itself writes there between invocations.
+func describeSource(dir, outDir string) Source {
+	s := Source{Env: map[string]string{}}
+	for _, k := range envKeys {
+		if v, ok := os.LookupEnv(k); ok {
+			s.Env[k] = v
+		}
+	}
+	if len(s.Env) == 0 {
+		s.Env = nil
+	}
+	s.Commit = firstLine(output("git", "-C", dir, "rev-parse", "HEAD"))
+	if s.Commit == "" {
+		return s
+	}
+	s.Describe = firstLine(output("git", "-C", dir, "describe", "--tags", "--always"))
+	args := []string{"-C", dir, "status", "--porcelain", "--", "."}
+	if clean := filepath.Clean(outDir); !filepath.IsAbs(clean) && clean != ".." && !strings.HasPrefix(clean, ".."+string(filepath.Separator)) {
+		args = append(args, ":(exclude)"+filepath.ToSlash(clean))
+	}
+	s.Dirty = strings.TrimSpace(output("git", args...)) != ""
+	return s
+}
+
 func printTable(w io.Writer, res Results) {
 	fmt.Fprintf(w, "\n%s — %d runs — %s\n", res.Label, res.Runs, res.CreatedUTC)
+	if res.Source.Commit != "" {
+		state := "clean"
+		if res.Source.Dirty {
+			state = "DIRTY"
+		}
+		fmt.Fprintf(w, "code: %s (%.12s), %s\n", res.Source.Describe, res.Source.Commit, state)
+	}
+	for _, k := range envKeys {
+		if v, ok := res.Source.Env[k]; ok && !strings.HasPrefix(k, "CGO_") {
+			fmt.Fprintf(w, "env: %s=%s\n", k, v)
+		}
+	}
 	if res.Machine.CPUModel != "" {
 		fmt.Fprintf(w, "cpu: %s\n", res.Machine.CPUModel)
 	}

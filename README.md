@@ -158,6 +158,8 @@ cmd/cuda-launch-bench  section 2 against a real GPU: launch, batching and pinnin
 cmd/router-bench    routing-decision cost, same harness as the Python baseline
 bench/python/       line-for-line Python port of the router, for the cross-language comparison
 internal/routerload/  deterministic routing workload shared by Go and Python
+bench/colab/        one-command runner for a Google Colab GPU runtime
+results/            measured results, one JSON file per machine and configuration
 internal/gated/     parses the build-tag-excluded files so CI catches typos in GPU code
 docs/FINDINGS.md    the numbers, with interpretation
 docs/REPRODUCING.md how to produce citable numbers: machines, commands, rules for quoting
@@ -197,9 +199,11 @@ it did not measure.
   designed around — fixed launch overhead and a prefix cache — and nothing else. The control plane
   numbers show that the *policies* work against a system with those properties; they are not
   throughput claims about any real model server.
-- **`cmd/cuda-launch-bench` has been compiled and linked against CUDA 12.9 headers and libraries, but
-  not run on a GPU.** Each variant reads its result back and checks it against the exact expected
-  value, so the first run on real hardware is also its test.
+- **The CUDA paths have run on exactly one GPU so far**: a Tesla T4 on Google Colab, driver 580,
+  CUDA 13.0, with `make test-cuda` passing and `cmd/cuda-launch-bench` v0.2.0 results in
+  [`results/`](results). The v0.2.1 additions (launch-only, CUDA Graph, spread-arena variants) are
+  compiled and linked against CUDA 12.9 but not yet run. Every variant reads its result back and
+  checks it against the exact expected value, so a broken variant fails rather than reporting a number.
 - **The 2-vCPU measurement host is small**, which compresses the scheduler-lateness figures. Thread
   growth and allocation figures are structural and reproduce anywhere; the microsecond latencies are
   not portable.

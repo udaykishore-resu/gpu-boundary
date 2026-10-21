@@ -291,13 +291,8 @@ func kernelSection() []Finding {
 		}
 
 		var scalarNS float64
-		reps := iters(20000, 2000)
-		if n > 10000 {
-			reps /= 20
-		}
-
 		for _, r := range runs {
-			ns := timeLoop(reps, func() { sink = r.fn(a, b) })
+			ns := timeBudget(kernelBudget(), func() { sink = r.fn(a, b) })
 			if r.name == "scalar" {
 				scalarNS = ns
 			}
@@ -313,6 +308,32 @@ func kernelSection() []Finding {
 }
 
 var sink float32
+
+// kernelBudget is how long each kernel measurement runs. v0.2.0 used a fixed
+// iteration count, which at n=256 finished in under a millisecond and varied by
+// 30% or more between runs; a time budget keeps every row long enough to be
+// stable regardless of how fast the kernel or the machine is.
+func kernelBudget() time.Duration {
+	if *flagQuick {
+		return 20 * time.Millisecond
+	}
+	return 200 * time.Millisecond
+}
+
+// timeBudget calibrates an iteration count that fills about d, then measures
+// with timeLoop.
+func timeBudget(d time.Duration, fn func()) float64 {
+	for n := 1; ; n *= 2 {
+		start := time.Now()
+		for i := 0; i < n; i++ {
+			fn()
+		}
+		if el := time.Since(start); el >= d/10 || n >= 1<<30 {
+			reps := int(float64(n) * float64(d) / float64(max(el, time.Nanosecond)))
+			return timeLoop(max(reps, 1), fn)
+		}
+	}
+}
 
 func ramp(n int, step float32) []float32 {
 	s := make([]float32, n)

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -94,6 +95,9 @@ func TestSanitise(t *testing.T) {
 func TestEndToEnd(t *testing.T) {
 	t.Setenv(fakeEnv, "1")
 	dir := t.TempDir()
+	// Run from a directory that is not a git checkout, so the result does not
+	// depend on the state of the developer's working tree.
+	t.Chdir(t.TempDir())
 	var stdout, stderr bytes.Buffer
 	err := run([]string{"-runs", "3", "-cooldown", "0", "-out", dir, "-label", "test box",
 		"--", os.Args[0]}, &stdout, &stderr)
@@ -120,11 +124,64 @@ func TestEndToEnd(t *testing.T) {
 	if s := res.Summary[0]; s.N != 3 || s.Median != 66.5 || s.StdDev != 0 {
 		t.Fatalf("summary[0] = %+v", s)
 	}
-	if len(res.Warnings) != 0 {
-		t.Fatalf("unexpected warnings: %v", res.Warnings)
+	if len(res.Warnings) != 1 || !strings.Contains(res.Warnings[0], "git checkout") {
+		t.Fatalf("want exactly the not-a-git-checkout warning, got %v", res.Warnings)
+	}
+	if res.Source.Commit != "" {
+		t.Fatalf("commit should be empty outside a checkout, got %q", res.Source.Commit)
 	}
 	if !strings.Contains(stdout.String(), "| boundary | cgo call | 66.5 |") {
 		t.Fatalf("table missing row:\n%s", stdout.String())
+	}
+}
+
+func TestDescribeSource(t *testing.T) {
+	if _, err := exec.LookPath("git"); err != nil {
+		t.Skip("git not installed")
+	}
+	repo := t.TempDir()
+	gitIn := func(args ...string) {
+		t.Helper()
+		cmd := exec.Command("git", append([]string{"-C", repo,
+			"-c", "user.name=test", "-c", "user.email=test@example.com"}, args...)...)
+		if out, err := cmd.CombinedOutput(); err != nil {
+			t.Fatalf("git %v: %v\n%s", args, err, out)
+		}
+	}
+	gitIn("init", "-q")
+	if err := os.WriteFile(filepath.Join(repo, "a.txt"), []byte("a\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	gitIn("add", "a.txt")
+	gitIn("commit", "-q", "-m", "init")
+	gitIn("tag", "v9.9.9")
+
+	t.Setenv("GOMAXPROCS", "1")
+	s := describeSource(repo, "results")
+	if len(s.Commit) != 40 || s.Describe != "v9.9.9" || s.Dirty {
+		t.Fatalf("clean tagged checkout: %+v", s)
+	}
+	if s.Env["GOMAXPROCS"] != "1" {
+		t.Fatalf("GOMAXPROCS not recorded: %v", s.Env)
+	}
+
+	// Output written by bench-runs itself must not make the tree dirty...
+	if err := os.MkdirAll(filepath.Join(repo, "results"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(repo, "results", "x.json"), []byte("{}\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if s := describeSource(repo, "results"); s.Dirty {
+		t.Fatalf("results/ should not count as dirty: %+v", s)
+	}
+
+	// ...but any other change must.
+	if err := os.WriteFile(filepath.Join(repo, "a.txt"), []byte("changed\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if s := describeSource(repo, "results"); !s.Dirty {
+		t.Fatalf("modified tracked file should be dirty: %+v", s)
 	}
 }
 
